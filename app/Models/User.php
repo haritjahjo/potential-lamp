@@ -14,7 +14,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     use HasApiTokens;
     use HasFactory;
@@ -71,9 +71,5 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasName
     {
         return $this->avatar_url;
     }
-    
-    public function getFilamentName(): string
-    {
-        return "{$this->first_name} {$this->last_name}";
-    }    
+      
 }
