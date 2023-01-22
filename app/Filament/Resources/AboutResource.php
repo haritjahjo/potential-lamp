@@ -32,17 +32,16 @@ class AboutResource extends Resource
         return $form
             ->columns(columns:12)
             ->schema([
-                Forms\Components\TextInput::make(name:'title')->label(label:'Title')
+                Forms\Components\TextInput::make(name:'title')
                     ->columnSpan(span:12)
                     ->required(condition:true)
                     ->maxLength(length: 255) ,
-                Forms\Components\RichEditor::make(name:'content')->label(label:'Content')
+                Forms\Components\RichEditor::make(name:'content')
                     ->columnSpan(span:12)
                     ->required()
                     ->maxLength(length:65535),
-                SpatieMediaLibraryFileUpload::make('about')->label(label:'About')
+                SpatieMediaLibraryFileUpload::make('about')
                     ->image()
-                    ->enableReordering()
                     ->collection('abouts')
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                             return (string) str($file->getClientOriginalName())->prepend('about-');})

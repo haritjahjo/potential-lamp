@@ -6,6 +6,7 @@ use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Vite;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
