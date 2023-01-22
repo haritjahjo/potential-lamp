@@ -9,6 +9,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\FormsComponent;
+use Livewire\TemporaryUploadedFile;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
@@ -17,6 +18,7 @@ use App\Filament\Resources\AboutResource\Pages;
 use Symfony\Contracts\Service\Attribute\Required;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AboutResource\RelationManagers;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class AboutResource extends Resource
@@ -40,9 +42,10 @@ class AboutResource extends Resource
                     ->maxLength(length:65535),
                 SpatieMediaLibraryFileUpload::make('about')
                     ->image()
-                    ->multiple()
                     ->enableReordering()
                     ->collection('abouts')
+                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                            return (string) str($file->getClientOriginalName())->prepend('about-');})
                     ->columnSpan(span:12),
             ]);
     }
@@ -57,6 +60,11 @@ class AboutResource extends Resource
                 TextColumn::make(name: 'content')
                     ->limit(length:50)
                     ->tooltip(tooltip:'content'),
+                SpatieMediaLibraryImageColumn::make(name: 'file_name')->label(label:'Image about')
+                    ->collection(collection:'abouts')
+                    ->conversion(conversion:'thumb-about')
+                    ->width(width: 140)
+                    ->height(height:80),                    
             ])
             ->filters([
                 //
