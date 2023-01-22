@@ -17,6 +17,7 @@ use App\Filament\Resources\AboutResource\Pages;
 use Symfony\Contracts\Service\Attribute\Required;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AboutResource\RelationManagers;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class AboutResource extends Resource
 {
@@ -37,6 +38,12 @@ class AboutResource extends Resource
                     ->columnSpan(span:12)
                     ->required()
                     ->maxLength(length:65535),
+                SpatieMediaLibraryFileUpload::make('about')
+                    ->image()
+                    ->multiple()
+                    ->enableReordering()
+                    ->collection('abouts')
+                    ->columnSpan(span:12),
             ]);
     }
 
