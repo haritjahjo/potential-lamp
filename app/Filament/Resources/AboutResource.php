@@ -32,15 +32,15 @@ class AboutResource extends Resource
         return $form
             ->columns(columns:12)
             ->schema([
-                Forms\Components\TextInput::make(name:'title')
+                Forms\Components\TextInput::make(name:'title')->label(label:'Title')
                     ->columnSpan(span:12)
                     ->required(condition:true)
                     ->maxLength(length: 255) ,
-                Forms\Components\RichEditor::make(name:'content')
+                Forms\Components\RichEditor::make(name:'content')->label(label:'Content')
                     ->columnSpan(span:12)
                     ->required()
                     ->maxLength(length:65535),
-                SpatieMediaLibraryFileUpload::make('about')
+                SpatieMediaLibraryFileUpload::make('about')->label(label:'About')
                     ->image()
                     ->enableReordering()
                     ->collection('abouts')
