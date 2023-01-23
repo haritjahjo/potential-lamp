@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\BookResource\Pages;
+use App\Filament\Resources\BookResource\RelationManagers;
+use App\Models\Book;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -14,10 +14,11 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use RelationManagers\BooksRelationManager;
 
-class CategoryResource extends Resource
+class BookResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Book::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -25,7 +26,7 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make(name:'name')->required()->maxLength(length:255)->label(label:'Category'),
+                TextInput::make(name:'title')->required()->maxLength(length:255),
             ]);
     }
 
@@ -33,7 +34,7 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make(name:'name')->label(label:'Category')->sortable()->searchable(),
+                TextColumn::make(name:'title')->searchable()->sortable(),
             ])
             ->filters([
                 //
@@ -49,16 +50,16 @@ class CategoryResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\PostsRelationManager::class,
+            //
         ];
     }
     
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListBooks::route('/'),
+            'create' => Pages\CreateBook::route('/create'),
+            'edit' => Pages\EditBook::route('/{record}/edit'),
         ];
     }    
 }
