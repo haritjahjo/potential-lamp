@@ -2,7 +2,7 @@
 <main id="main">
 
     <!-- ======= About Section ======= -->
-  <x-frontend.about :about="$about" />
+  <x-frontend.about />
 
     <!-- ======= Clients Section ======= -->
     <section id="clients" class="clients">

@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('pages.welcome');
+});
 
-Route::get(uri: '/', action: 'App\Http\Controllers\FrontImageController@getFrontImageData');
+//Route::get(uri: '/', action: 'App\Http\Controllers\FrontImageController@getFrontImageData');
 
 Route::middleware([
     'auth:sanctum',
