@@ -10,6 +10,7 @@ use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Livewire\TemporaryUploadedFile;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -33,6 +34,10 @@ class FrontImageResource extends Resource
                     ->columnSpan(span:12)
                     ->required(condition:true)
                     ->maxLength(length: 255),
+                TextInput::make(name:'excerpt')
+                    ->columnSpan(span:12)
+                    ->required(condition:true)
+                    ->maxLength(length: 255),
                 SpatieMediaLibraryFileUpload::make('Front_Image')
                     ->image()
                     ->collection('front-images')
@@ -46,7 +51,10 @@ class FrontImageResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make(name:'title')->searchable()->sortable(),
+                TextColumn::make(name:'title')->searchable()->sortable()->limit(length:10)
+                    ->tooltip(tooltip:'title')->tooltip(fn (Model $record): string => "{$record->title}"),
+                TextColumn::make(name:'excerpt')->searchable()->sortable()
+                    ->tooltip(tooltip:'excerpt')->tooltip(fn (Model $record): string => "{$record->excerpt}"),
                 SpatieMediaLibraryImageColumn::make(name: 'file_name')->label(label:'Front Image')
                     ->collection(collection:'front-images')
                     ->conversion(conversion:'thumb-front')
