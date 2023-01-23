@@ -6,6 +6,7 @@ use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -27,7 +28,7 @@ class PostResource extends Resource
         return $form
             ->schema([
                 TextInput::make(name:'title')->label(label:'Post Title')->required()->maxLength(length:255),
-                RichEditor::make(name:'content')->maxLength(length:65000)->label(label:'Post Content')->required(),
+                MarkdownEditor::make(name:'content')->maxLength(length:65000)->label(label:'Post Content')->required(),
             ]);
     }
 
