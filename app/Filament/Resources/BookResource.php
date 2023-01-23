@@ -6,6 +6,7 @@ use App\Filament\Resources\BookResource\Pages;
 use App\Filament\Resources\BookResource\RelationManagers;
 use App\Models\Book;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -14,7 +15,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use RelationManagers\BooksRelationManager;
 
 class BookResource extends Resource
 {
@@ -27,6 +27,8 @@ class BookResource extends Resource
         return $form
             ->schema([
                 TextInput::make(name:'title')->required()->maxLength(length:255),
+                Select::make(name:'tag_id')
+                    ->relationship(relationshipName:'Tag', titleColumnName:'name'),
             ]);
     }
 
@@ -35,14 +37,18 @@ class BookResource extends Resource
         return $table
             ->columns([
                 TextColumn::make(name:'title')->searchable()->sortable(),
+                TextColumn::make(name: 'tag.name')->searchable()->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
+                Tables\Actions\ForceDeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }

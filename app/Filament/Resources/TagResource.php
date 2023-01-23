@@ -2,21 +2,20 @@
 
 namespace App\Filament\Resources;
 
+use Pages\ViewTag;
 use App\Models\Tag;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
-use RelationManager\TagsRelationManager;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use RelationManagers\BooksRelationManager;
 use App\Filament\Resources\TagResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TagResource\RelationManagers;
-use App\Filament\Resources\TagResource\RelationManagers\BooksRelationManager;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Columns\TextColumn;
 
 class TagResource extends Resource
 {
@@ -36,15 +35,18 @@ class TagResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make(name:'name')->searchable()->sortable(),
+                TextColumn::make(name:'name')->sortable()->searchable(),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
+                Tables\Actions\ForceDeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
@@ -52,13 +54,15 @@ class TagResource extends Resource
     public static function getRelations(): array
     {
         return [
-            BooksRelationManager::class,
+            
+            RelationManagers\BooksRelationManager::class,
         ];
     }
     
     public static function getPages(): array
     {
         return [
+            //'view' => Pages\ViewTag::route('/{record}'),
             'index' => Pages\ListTags::route('/'),
             'create' => Pages\CreateTag::route('/create'),
             'edit' => Pages\EditTag::route('/{record}/edit'),

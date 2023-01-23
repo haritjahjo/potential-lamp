@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('tag_id')->nullable()->constrained();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

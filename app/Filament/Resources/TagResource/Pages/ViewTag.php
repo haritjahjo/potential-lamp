@@ -4,9 +4,10 @@ namespace App\Filament\Resources\TagResource\Pages;
 
 use App\Filament\Resources\TagResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\EditRecord;
 
-class EditTag extends EditRecord
+use Filament\Resources\Pages\ViewRecord;
+
+class EditTag extends ViewRecord
 {
     protected static string $resource = TagResource::class;
 
@@ -14,11 +15,11 @@ class EditTag extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\ViewAction::make(),
+            Actions\ForceDeleteAction::make(),
+            Actions\RestoreAction::make(),
         ];
     }
 
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
+    
 }
